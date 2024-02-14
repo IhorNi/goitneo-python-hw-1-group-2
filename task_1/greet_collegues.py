@@ -5,9 +5,13 @@ from datetime import date, datetime, timedelta
 
 def create_random_users() -> list[dict]:
     """
-    Create random users all-over the year
+    Generate random users with birthdays evenly distributed throughout the year.
+
+    Returns:
+        list[dict]: A list of dictionaries where each dictionary represents a user and contains
+        "name" and "birthday" keys.
     """
-    names = [
+    first_names = [
         "John",
         "Sarah",
         "Robert",
@@ -57,7 +61,7 @@ def create_random_users() -> list[dict]:
 
         # generate users with random names per day, if any
         for _ in range(num_birthdays):
-            chosen_name = f"{random.choice(names)} {random.choice(surnames)}"
+            chosen_name = f"{random.choice(first_names)} {random.choice(surnames)}"
             random_users.append({"name": chosen_name, "birthday": date_of_year})
 
     return random_users
@@ -65,15 +69,26 @@ def create_random_users() -> list[dict]:
 
 def get_birthdays_per_week(collegues: list[dict], refference_date: date = datetime.today().date()):
     """
-    Function to get the list of user names who have birthdays in the upcoming week.
-    The function prints the names of the users sorted by the day of the next week on which their birthday falls.
-    If a user's birthday falls on a weekend, it is considered as falling on the next Monday.
+    Determine which colleagues have birthdays in the upcoming week.
+
+    Args:
+        collegues (list[dict]): A list of dictionaries where each dictionary represents a user and
+            contains "name" and "birthday" keys.
+
+        refference_date (date, optional): The date from which to calculate one week forward. Default is today's date.
+
+        weekdays (list[str], optional): List of weekday names. Defaults to predefined WEEKDAYS list.
+
+    Returns:
+        str: A formatted string containing the names of colleagues that have birthdays
+            in the upcoming week, sorted by the day of the week.
     """
 
     weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     next_week_birthday_colleagues = defaultdict(list)
 
     for colleague in collegues:
+        # prepare colleague birthday information
         name = colleague["name"]
         birthday = colleague["birthday"].date()
         birthday_this_year = birthday.replace(year=refference_date.year)
@@ -81,8 +96,9 @@ def get_birthdays_per_week(collegues: list[dict], refference_date: date = dateti
         if birthday_this_year < refference_date:
             birthday_this_year = birthday_this_year.replace(year=refference_date.year + 1)
 
+        # get the colleagues with birthdays in the next 7 days from refference_date
         delta_days = (birthday_this_year - refference_date).days
-
+        # TODO: handle next monday situation
         if delta_days >= 0 and delta_days < 7:
             if birthday_this_year.weekday() >= 5:  # if it's a weekend
                 weekday = "Monday"
