@@ -44,3 +44,10 @@ def get_birthdays_per_week(users: list[dict], refference_date: date = datetime.t
 
     for day, names in next_week_birthday_users.items():
         print(f'{day}: {", ".join(names)}')
+
+
+if __name__ == '__main__':
+    users = create_users()
+    print(f"Total number of users: {len(users)}")
+    print(f"Each user follows next structure {users[0]}")
+    get_birthdays_per_week(users)
