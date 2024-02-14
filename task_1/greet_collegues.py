@@ -1,21 +1,39 @@
+import random
 from datetime import datetime, timedelta, date
 from collections import defaultdict
 
 
-def create_users() -> list[dict]:
+def create_random_users() -> list[dict]:
     """
-    Create users all-over the year
+    Create random users all-over the year
     """
-    users = []
+    names = [
+        'John', 'Sarah', 'Robert', 'Emma', 'Michael', 'Sophia', 
+        'James', 'Emily', 'David', 'Olivia', 'Richard', 'Isabella', 
+        'Charles', 'Ava', 'Joseph', 'Mia', 'Thomas', 'Charlotte'
+    ]
+    surnames = [
+        'Smith', 'Johnson', 'Brown', 'Taylor', 'Miller', 'Davis', 
+        'Clark', 'Rodriguez', 'Lewis', 'Lee', 'Walker', 'White', 
+        'Jackson', 'Harris', 'Martin', 'Thompson', 'Garcia', 'Martinez'
+    ]
+    random_users = []
     for day_of_year in range(1, 360):
+        # get the next date
         date_of_year = datetime(datetime.today().year, 1, 1) + timedelta(day_of_year - 1)
-        users.append({"name": f"User{2*day_of_year-1}", "birthday": date_of_year})
-        users.append({"name": f"User{2*day_of_year}", "birthday": date_of_year})
+        
+        # decide randomly how many birthdays will be in a day from 0 to 3
+        num_birthdays = random.randint(0, 3)
+        
+        # generate users with random names per day, if any
+        for _ in range(num_birthdays):
+            chosen_name = f"{random.choice(names)} {random.choice(surnames)}"
+            random_users.append({"name": chosen_name, "birthday": date_of_year})
 
-    return users
+    return random_users
 
 
-def get_birthdays_per_week(users: list[dict], refference_date: date = datetime.today().date()):
+def get_birthdays_per_week(collegues: list[dict], refference_date: date = datetime.today().date()):
     """
     Function to get the list of user names who have birthdays in the upcoming week.
     The function prints the names of the users sorted by the day of the next week on which their birthday falls.
@@ -25,13 +43,13 @@ def get_birthdays_per_week(users: list[dict], refference_date: date = datetime.t
     weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     next_week_birthday_users = defaultdict(list)
 
-    for user in users:
-        name = user["name"]
-        birthday = user["birthday"].date()
+    for colleague in collegues:
+        name = colleague["name"]
+        birthday = colleague["birthday"].date()
         birthday_this_year = birthday.replace(year=refference_date.year)
 
         if birthday_this_year < refference_date:
-            birthday_this_year = birthday_this_year.replace(year=refference_date.year+1)
+            birthday_this_year = birthday_this_year.replace(year=refference_date.year + 1)
 
         delta_days = (birthday_this_year - refference_date).days
 
@@ -47,7 +65,7 @@ def get_birthdays_per_week(users: list[dict], refference_date: date = datetime.t
 
 
 if __name__ == '__main__':
-    users = create_users()
+    users = create_random_users()
     print(f"Total number of users: {len(users)}")
     print(f"Each user follows next structure {users[0]}")
     get_birthdays_per_week(users)
