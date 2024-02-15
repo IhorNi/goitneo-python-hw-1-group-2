@@ -1,6 +1,7 @@
 import random
-from faker import Faker
 from datetime import datetime, timedelta
+
+from faker import Faker
 
 
 def create_random_users() -> list[dict]:
