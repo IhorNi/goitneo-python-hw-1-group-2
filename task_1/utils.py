@@ -1,4 +1,5 @@
 import random
+from faker import Faker
 from datetime import datetime, timedelta
 
 
@@ -10,46 +11,7 @@ def create_random_users() -> list[dict]:
         list[dict]: A list of dictionaries where each dictionary represents a user and contains
         "name" and "birthday" keys.
     """
-    first_names = [
-        "John",
-        "Sarah",
-        "Robert",
-        "Emma",
-        "Michael",
-        "Sophia",
-        "James",
-        "Emily",
-        "David",
-        "Olivia",
-        "Richard",
-        "Isabella",
-        "Charles",
-        "Ava",
-        "Joseph",
-        "Mia",
-        "Thomas",
-        "Charlotte",
-    ]
-    surnames = [
-        "Smith",
-        "Johnson",
-        "Brown",
-        "Taylor",
-        "Miller",
-        "Davis",
-        "Clark",
-        "Rodriguez",
-        "Lewis",
-        "Lee",
-        "Walker",
-        "White",
-        "Jackson",
-        "Harris",
-        "Martin",
-        "Thompson",
-        "Garcia",
-        "Martinez",
-    ]
+    fake = Faker()
     random_users = []
     for day_of_year in range(1, 360):
         # get the next date
@@ -60,7 +22,7 @@ def create_random_users() -> list[dict]:
 
         # generate users with random names per day, if any
         for _ in range(num_birthdays):
-            chosen_name = f"{random.choice(first_names)} {random.choice(surnames)}"
+            chosen_name = fake.name()
             random_users.append({"name": chosen_name, "birthday": date_of_year})
 
     return random_users
