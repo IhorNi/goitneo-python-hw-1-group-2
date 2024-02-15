@@ -3,7 +3,9 @@ from datetime import date, datetime
 
 from utils import create_random_users
 
-WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Next Monday"]
+MONDAY_INDEX = 0
+NEXT_MONDAY_INDEX = -1
 
 
 def get_birthday_this_year(birthday: date, relative_date: date) -> date:
@@ -39,9 +41,9 @@ def get_greeting_day(birthday_this_year: date, relative_date: date) -> str:
 
     # if birthday is a weekend and relative_date is Monday, so greeting goes to next Monday
     if (birthday_this_year.weekday() >= 5) & (relative_date.weekday() == 0):
-        return "Next Monday"
+        return WEEKDAYS[NEXT_MONDAY_INDEX]
     elif birthday_this_year.weekday() >= 5:
-        return "Monday"
+        return WEEKDAYS[MONDAY_INDEX]
     else:
         return WEEKDAYS[birthday_this_year.weekday()]
 
