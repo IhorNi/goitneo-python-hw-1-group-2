@@ -1,14 +1,6 @@
-"""CLI assistant"""
-def parse_input(user_input):
-    cmd, *args = user_input.split()
-    cmd = cmd.strip().lower()
-    return cmd, *args
+"""Prototype of CLI assistant"""
 
-
-def add_contact(args, contacts):
-    name, phone = args
-    contacts[name] = phone
-    return "Contact added."
+from assistant_functions import HELP_ERROR_MESSAGE, add_contact, change_contact, parse_input, print_all, print_phone
 
 
 def main():
@@ -17,16 +9,21 @@ def main():
     while True:
         user_input = input("Enter a command: ")
         command, *args = parse_input(user_input)
-
         if command in ["close", "exit"]:
             print("Good bye!")
             break
-        elif command == "hello":
+        if command in ["hello", "hi"]:
             print("How can I help you?")
         elif command == "add":
             print(add_contact(args, contacts))
+        elif command == "change":
+            print(change_contact(args, contacts))
+        elif command == "phone":
+            print(print_phone(args, contacts))
+        elif command == "all":
+            print(print_all(contacts))
         else:
-            print("Invalid command.")
+            print(f"Unknown command '{command}', please try again.\n{HELP_ERROR_MESSAGE}")
 
 
 if __name__ == "__main__":
