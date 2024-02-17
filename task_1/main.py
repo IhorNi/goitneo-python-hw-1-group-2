@@ -1,7 +1,7 @@
 from collections import defaultdict
 from datetime import date, datetime
 
-from utils import create_random_users
+from random_users import create_random_users
 
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Next Monday"]
 MONDAY_INDEX = 0
