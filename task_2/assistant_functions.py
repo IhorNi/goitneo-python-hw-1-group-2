@@ -16,6 +16,9 @@ HELP_ERROR_MESSAGE = """Supported functions:
 
 
 def parse_input(user_input: str) -> tuple[str, Optional[CommandArguments]]:
+    if not user_input.strip():
+        return "", None
+    
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
 
@@ -23,7 +26,6 @@ def parse_input(user_input: str) -> tuple[str, Optional[CommandArguments]]:
         return cmd, None
 
     return cmd, *args
-
 
 def add_contact(args: CommandArguments, contacts: Contacts) -> str:
     if args is None or len(args) < 2:
